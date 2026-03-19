@@ -60,3 +60,51 @@ def test_create_ex(client):
     data = response.json()
     assert data["name"] == "Bench Press"
     assert data["description"] == "DB/BB Chest Pressing Exercise"
+
+#Test get for specific exercise
+def test_get_one(client):
+     #create example data
+    added = client.post(
+        "/exercises",
+        json={
+            "name": "Bench Press",
+            "description": "DB/BB Chest Pressing Exercise"
+        }
+    )
+    assert added.status_code == 201
+
+    created = added.json()
+    added_id = created["id"]
+
+    #get data
+    response = client.get(f"/exercises/{added_id}")
+    assert response.status_code == 200
+    
+    details = response.json()
+    assert details["name"] == "Bench Press"
+
+
+
+#Test deleting an exercise
+def test_delete(client):
+
+    #create data to be deleted
+    added = client.post(
+        "/exercises",
+        json={
+            "name": "Bench Press",
+            "description": "DB/BB Chest Pressing Exercise"
+        }
+    )
+    assert added.status_code == 201
+
+    created = added.json()
+    added_id = created["id"]
+
+    #delete data
+    delete_response = client.delete(f"/exercises/{added_id}")
+    assert delete_response.status_code == 204
+    
+    #Check data is deleted
+    get_response = client.get(f"/exercises/{added_id}")
+    assert get_response.status_code == 404
