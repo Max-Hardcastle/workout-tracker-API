@@ -108,3 +108,34 @@ def test_delete(client):
     #Check data is deleted
     get_response = client.get(f"/exercises/{added_id}")
     assert get_response.status_code == 404
+
+#Test editing an exercise
+def test_amend(client):
+        #create data to be amended
+    added = client.post(
+        "/exercises",
+        json={
+            "name": "Bench Press",
+            "description": "DB/BB Chest Pressing Exercise"
+        }
+    )
+    assert added.status_code == 201
+
+    created = added.json()
+    added_id = created["id"]
+
+    assert created["description"] == "DB/BB Chest Pressing Exercise"
+
+    amended = client.patch(
+        f"/exercises/{added_id}",
+        json={
+            "description": "Chest Press Movement"
+        }
+    )
+    assert amended.status_code == 200
+    
+    amended_details = amended.json()
+    assert amended_details["description"] == "Chest Press Movement"
+
+
+
