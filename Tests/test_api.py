@@ -40,11 +40,31 @@ def test_root(client):
     response = client.get("/")
     assert response.status_code == 200
 
-#Test get all exercises while db is empty
-def test_get_all(client):
+#Test get all exercises while database is empty
+def test_get_all_empty(client):
     response = client.get("/exercises")
     assert response.status_code == 200
     assert response.json() == []
+
+#Test get all exercises while database contains data
+def test_get_all_not_empty(client):
+    #create example data
+    added = client.post(
+        "/exercises",
+        json={
+            "name": "Bench Press",
+            "description": "DB/BB Chest Pressing Exercise"
+        }
+    )
+    assert added.status_code == 201
+
+    response = client.get("/exercises")
+    assert response.status_code == 200
+
+    data = response.json()
+    assert len(data) == 1
+    assert data[0]["name"] == "Bench Press"
+    assert data[0]["description"] == "DB/BB Chest Pressing Exercise"
 
 #Test post to create exercise
 def test_create_ex(client):
