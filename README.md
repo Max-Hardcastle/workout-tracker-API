@@ -48,6 +48,11 @@ DELETE /exercises/{exercise_id}
 ### Amend an exercise
 PATCH /exercises/{exercise_id}
 
+{
+  "name": "Squat",
+  "description": "Freeweight leg pressing movement"
+}
+
 ## Testing
 Pytest is used for automated testing. Tests cover:
 - Getting the root
