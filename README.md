@@ -31,6 +31,7 @@ Future development will look to extend functionality so users can add exercises 
 
 ### Create an exercise
 POST /exercises
+
 {
   "name": "Bench Press",
   "description": "Chest pressing movement"
