@@ -66,8 +66,8 @@ def delete_workout(
     session.delete(workout)
     session.commit()
 
-#Add exercise to a workout
-@router.post("/{workout_id}/exercises", response_model=ExerciseSetRead, status_code=201)
+#Add exercise set to a workout
+@router.post("/{workout_id}/sets", response_model=ExerciseSetRead, status_code=201)
 def add_exercise_to_workout(
     workout_id: int,
     set_data: ExerciseSetCreate,
@@ -97,3 +97,63 @@ def add_exercise_to_workout(
     session.commit()
     session.refresh(exercise_set)
     return exercise_set
+
+
+#Delete exercise set from a workout
+@router.delete("/{workout_id}/sets/{exercise_set_id}", status_code=204)
+def delete_set_from_workout(
+    workout_id: int,
+    exercise_set_id: int,
+    session: Session = Depends(get_session)
+    ):
+
+    exercise_set = session.get(ExerciseSet, exercise_set_id)
+
+    #Check that set exists
+    if exercise_set is None:
+        raise HTTPException(status_code=404, detail="Set not found")
+
+    #Check that set is in this workout
+    if exercise_set.workout_id != workout_id:
+        raise HTTPException(status_code=404, detail="Set not found in this workout")
+    
+    session.delete(exercise_set)
+    session.commit()
+
+#Get an exercise set from a workout
+@router.get("/{workout_id}/sets/{exercise_set_id}", response_model=ExerciseSetRead)
+def get_exercise_set(
+    workout_id: int,
+    exercise_set_id: int,
+    session: Session = Depends(get_session)):
+
+    exercise_set = session.get(ExerciseSet, exercise_set_id)
+
+    #Check that set exists
+    if exercise_set is None:
+        raise HTTPException(status_code=404, detail="Set not found")
+
+    #Check that set is in this workout
+    if exercise_set.workout_id != workout_id:
+        raise HTTPException(status_code=404, detail="Set not found in this workout")
+
+    return exercise_set
+
+#Get all sets of an exercise in a workout
+@router.get("/{workout_id}/exercises/{exercise_id}", response_model = list[ExerciseSetRead])
+def get_multiple_exercise_sets(
+    workout_id: int,
+    exercise_id: int,
+    session: Session = Depends(get_session)):
+
+    sets = session.exec(
+        select(ExerciseSet).where(
+            ExerciseSet.workout_id == workout_id,
+            ExerciseSet.exercise_id == exercise_id
+            )
+            ).all()
+    
+    if not sets:
+        raise HTTPException(status_code=404, detail="No sets found for this exercise in this workout")
+
+    return sets
