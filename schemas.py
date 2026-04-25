@@ -35,6 +35,7 @@ class ExerciseSetCreate(BaseModel):
 
 class ExerciseSetRead(BaseModel):
     id: int
+    workout_id: int
     exercise_id: int
     set_number: int
     reps: int

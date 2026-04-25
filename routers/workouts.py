@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
-from schemas import WorkoutCreate, WorkoutRead, WorkoutUpdate, ExerciseSetRead, ExerciseSetCreate
+from schemas import WorkoutCreate, WorkoutRead, WorkoutUpdate, ExerciseSetRead, ExerciseSetCreate, ExerciseRead
 from database import get_session
 from models import Workout, Exercise, ExerciseSet
 
@@ -140,7 +140,7 @@ def get_exercise_set(
     return exercise_set
 
 #Get all sets of an exercise in a workout
-@router.get("/{workout_id}/exercises/{exercise_id}", response_model = list[ExerciseSetRead])
+@router.get("/{workout_id}/exercises/{exercise_id}/sets", response_model = list[ExerciseSetRead])
 def get_multiple_exercise_sets(
     workout_id: int,
     exercise_id: int,
@@ -157,3 +157,29 @@ def get_multiple_exercise_sets(
         raise HTTPException(status_code=404, detail="No sets found for this exercise in this workout")
 
     return sets
+
+#Get a list of all exercises in a workout
+@router.get("/{workout_id}/sets", response_model = list[ExerciseRead])
+def get_workout_exercises(
+    workout_id: int,
+    session: Session = Depends(get_session)):
+
+    sets = session.exec(
+        select(ExerciseSet).where(
+            ExerciseSet.workout_id == workout_id,
+            )
+            ).all()
+    
+    exercises = session.exec(
+        select(Exercise).where(
+            ExerciseSet.exercise_id == Exercise.id,
+            )
+            ).all()
+    
+    if not exercises:
+        raise HTTPException(status_code=404, detail="No exercises found in this workout")
+    
+    return exercises
+    
+
+    
