@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
-from schemas import WorkoutCreate, WorkoutRead, WorkoutUpdate, ExerciseSetRead, ExerciseSetCreate, ExerciseRead
+from schemas import WorkoutCreate, WorkoutRead, WorkoutUpdate, ExerciseSetRead, ExerciseSetCreate, ExerciseRead, ExerciseSetUpdate
 from database import get_session
 from models import Workout, Exercise, ExerciseSet
 
@@ -181,5 +181,35 @@ def get_workout_exercises(
     
     return exercises
     
+#Amend exercise in workout
+@router.patch("/{workout_id}/sets/{exercise_set_id}", response_model=ExerciseSetRead)
+def edit_workout_set(
+    edited_set: ExerciseSetUpdate,
+    exercise_set_id: int,
+    workout_id: int,
+    session: Session = Depends(get_session)):
+
+    exercise_set = session.get(ExerciseSet, exercise_set_id)
+
+    #Check that set exists
+    if exercise_set is None:
+        raise HTTPException(status_code=404, detail="Set not found")
+
+    #Check that set is in this workout
+    if exercise_set.workout_id != workout_id:
+        raise HTTPException(status_code=404, detail="Set not found in this workout")
+    
+    updates = edited_set.model_dump(exclude_unset=True)
+
+    for key, value in updates.items():
+        setattr(exercise_set, key, value)
+
+    session.commit()
+    session.refresh(exercise_set)
+    return exercise_set
+
+    
+    
+
 
     

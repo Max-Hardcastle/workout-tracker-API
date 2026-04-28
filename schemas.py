@@ -40,3 +40,7 @@ class ExerciseSetRead(BaseModel):
     set_number: int
     reps: int
     weight: float
+
+class ExerciseSetUpdate(BaseModel):
+    reps: int | None = None
+    weight: float | None = None

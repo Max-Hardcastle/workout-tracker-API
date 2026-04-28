@@ -535,3 +535,61 @@ def test_get_all_workout_exercises(client):
     assert len(data) == 2
     assert data[0]["name"] == "Bench Press"
     assert data[1]["name"] == "Squat"
+
+#Test editing a set within a workout
+def test_edit_workout_set(client):
+    #create test exercise
+    added_ex = client.post(
+        "/exercises",
+        json={
+            "name": "Bench Press",
+            "description": "DB/BB Chest Pressing Exercise"
+        }
+    )
+    assert added_ex.status_code == 201
+
+    created_ex = added_ex.json()
+    added_ex_id = created_ex["id"]
+
+    #create test workout
+    added_wrk = client.post(
+        "/workouts",
+        json={
+            "workout_date": "2026-01-01"
+        }
+    )
+    assert added_wrk.status_code == 201
+
+    created_wrk = added_wrk.json()
+    added_wrk_id = created_wrk["id"]
+
+    #Add set
+    combine = client.post(
+        f"/workouts/{added_wrk_id}/sets",
+        json={
+              "exercise_id": (added_ex_id),
+              "set_number": 1,
+              "reps": 10,
+              "weight": 50
+        }
+    )
+    assert combine.status_code == 201
+
+    combined = combine.json()
+    exercise_set_id = combined["id"]
+
+    #Amend the set
+    amended = client.patch(
+        f"/workouts/{added_wrk_id}/sets/{exercise_set_id}",
+        json={
+              "reps": 200,
+              "weight": 1
+        }
+    )
+
+    amended_details = amended.json()
+
+    print(amended_details)
+
+    assert amended_details["reps"] == 200
+    assert amended_details["weight"] == 1
