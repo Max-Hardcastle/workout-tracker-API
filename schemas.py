@@ -4,7 +4,7 @@ from datetime import date
 #'Exercise' standard schemas
 class ExerciseBase(BaseModel):
     name: str
-    description: str | None = None
+    description: str
 
 class ExerciseRead(ExerciseBase):
     id: int
