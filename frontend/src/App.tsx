@@ -4,8 +4,8 @@ import WorkoutsPage from "./pages/WorkoutsPage";
 
 function App() {
 
-  //Current page, default to exercises
-  const [page, setPage] = useState("exercises");
+  //Current page, default to workouts
+  const [page, setPage] = useState("workouts");
 
   return (
     <div>

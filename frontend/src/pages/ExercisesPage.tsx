@@ -13,9 +13,9 @@ function ExercisesPage(){
 
     //Async state for fetching exercises
     const fetchExercises = async() => {
-    const res = await fetch("http://127.0.0.1:8000/exercises");
-    const data = await res.json();
-    setExercises(data);
+      const res = await fetch("http://127.0.0.1:8000/exercises");
+      const data = await res.json();
+      setExercises(data);
     };
 
     //Async state for adding a new exercise
@@ -31,12 +31,23 @@ function ExercisesPage(){
             })
         })
 
-    //Reset name and description states back to blank
-    setName("");
-    setDescription("");
+        //Reset name and description states back to blank
+        setName("");
+        setDescription("");
 
-    fetchExercises();
+        fetchExercises();
     }
+
+    //Async state for deleting exercises
+    const deleteExercise = async (exercise_id: number) => {
+      await fetch(`http://127.0.0.1:8000/exercises/${exercise_id}`, {
+        method: "DELETE"
+      });
+      
+      fetchExercises();
+    };
+
+    
 
     //Get exercises from backend, change them to json format, and add them to the set if exercises
     useEffect(() => {
@@ -45,7 +56,10 @@ function ExercisesPage(){
 
   return (
     <div>
-      <ExerciseList exercises={exercises} />
+      <ExerciseList
+      exercises={exercises}
+      deleteExercise={deleteExercise}
+      />
 
       <h2>Add Exercise</h2>
 

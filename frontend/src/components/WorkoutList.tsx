@@ -2,9 +2,13 @@ import type { Workout } from "../types";
 
 type WorkoutListProps = {
   workouts: Workout[];
+  deleteWorkout: (workout_id: number) => void;
 };
 
-function WorkoutList({ workouts }: WorkoutListProps) {
+function WorkoutList({
+  workouts,
+  deleteWorkout
+}: WorkoutListProps) {
   return (
     <>
       <h2>Workouts</h2>
@@ -12,8 +16,9 @@ function WorkoutList({ workouts }: WorkoutListProps) {
       <ul>
         {workouts.map((wrk) => (
           <li key={wrk.id}>
-            {wrk.id}: <strong>{wrk.workout_date}</strong>
-            <button onClick={()=> console.log(wrk.id)}>Delete</button>
+            Workout {wrk.id}: <strong>{wrk.workout_date}</strong>
+            <button>Edit</button>
+            <button onClick={() => deleteWorkout(wrk.id)}>Delete</button>
           </li>
         ))}
       </ul>

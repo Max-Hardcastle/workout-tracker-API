@@ -31,11 +31,21 @@ function WorkoutsPage(){
             })
         })
 
-    //Reset date state back to blank
-    setDate("");
+        //Reset date state back to blank
+        setDate("");
 
-    fetchWorkouts();
-    }
+        fetchWorkouts();
+        };
+
+    //Async state for deleting workouts
+    const deleteWorkout = async (workout_id: number) => {
+      await fetch(`http://127.0.0.1:8000/workouts/${workout_id}`, {
+        method: "DELETE"
+      });
+      
+      fetchWorkouts();
+    };
+    
 
     //Get workouts from backend, change them to json format, and add them to the set of workouts
     useEffect(() => {
@@ -44,7 +54,10 @@ function WorkoutsPage(){
 
   return (
     <div>
-      <WorkoutList workouts={workouts} />
+      <WorkoutList
+      workouts={workouts}
+      deleteWorkout={deleteWorkout}
+      />
 
       <h2>Add Workout</h2>
 
