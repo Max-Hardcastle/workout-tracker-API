@@ -3,7 +3,11 @@ import type { Workout } from "../types";
 import WorkoutList from "../components/WorkoutList"
 import AddWorkoutForm from "../components/AddWorkoutForm";
 
-function WorkoutsPage(){
+type workoutsPageProps = {
+  setSelectedWorkoutId: React.Dispatch<React.SetStateAction<number | null>>;
+};
+
+function WorkoutsPage({ setSelectedWorkoutId }: workoutsPageProps){
     
     //States for the date of workouts being added
     const[workout_date, setDate] = useState("");
@@ -57,6 +61,7 @@ function WorkoutsPage(){
       <WorkoutList
       workouts={workouts}
       deleteWorkout={deleteWorkout}
+      setSelectedWorkoutId={setSelectedWorkoutId}
       />
 
       <h2>Add Workout</h2>

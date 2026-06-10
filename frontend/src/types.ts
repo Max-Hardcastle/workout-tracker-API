@@ -10,3 +10,13 @@ export type Workout = {
   id: number;
   workout_date: string;
 };
+
+//Define a set within a workout
+export type ExerciseSet = {
+  id: number;
+  workout_id: number;
+  exercise_id: number;
+  set_number: number;
+  reps: number;
+  weight: number;
+};
