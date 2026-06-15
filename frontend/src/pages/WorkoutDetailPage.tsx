@@ -69,6 +69,32 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
     fetchExerciseSets();
   };
 
+  //State for selecting set ID for editing set
+  const [selectedSetId, setSelectedSetId] = useState<number | null>(null);
+
+  //States for temporary editing components
+  const[editSetNumber, setEditSetNumber] = useState("");
+  const[editReps, setEditReps] = useState("");
+  const[editWeight, setEditWeight] = useState("");
+
+  //Asnc state for editing sets
+  const updateSet = async (setId: number) => {
+      await fetch(`http://127.0.0.1:8000/workouts/${workoutId}/sets/${setId}`, {
+      method: "PATCH",
+      headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      set_number: Number(editSetNumber),
+      reps: Number(editReps),
+      weight: Number(editWeight),
+    }),
+  });
+
+  fetchExerciseSets();
+  setSelectedSetId(null);
+};
+
   useEffect(() => {
     fetchExerciseSets();
     fetchExercises();
@@ -81,7 +107,17 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
         sets={exerciseSets}
         workout_id={workoutId}
         deleteSet={deleteSet}
+        selectedSetId={selectedSetId}
+        setSelectedSetId={setSelectedSetId}
+        editSetNumber={editSetNumber}
+        setEditSetNumber={setEditSetNumber}
+        editReps={editReps}
+        setEditReps={setEditReps}
+        editWeight={editWeight}
+        setEditWeight={setEditWeight}
+        updateSet={updateSet}
         />
+        
 
         <AddSetForm
         exercises={exercises}
