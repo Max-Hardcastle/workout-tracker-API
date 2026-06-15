@@ -49,7 +49,7 @@ function ExercisesPage(){
 
     
 
-    //Get exercises from backend, change them to json format, and add them to the set if exercises
+    //Get exercises from backend, change them to json format, and add them to the set of exercises
     useEffect(() => {
     fetchExercises();
     }, []);

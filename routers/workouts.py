@@ -158,28 +158,22 @@ def get_multiple_exercise_sets(
 
     return sets
 
-#Get a list of all exercises in a workout
-@router.get("/{workout_id}/sets", response_model = list[ExerciseRead])
-def get_workout_exercises(
+#Get a list of all exercise sets in a workout
+@router.get("/{workout_id}/sets", response_model = list[ExerciseSetRead])
+def get_workout_exercise_sets(
     workout_id: int,
     session: Session = Depends(get_session)):
-
-    sets = session.exec(
+    
+    exercise_sets = session.exec(
         select(ExerciseSet).where(
             ExerciseSet.workout_id == workout_id,
             )
             ).all()
-    
-    exercises = session.exec(
-        select(Exercise).where(
-            ExerciseSet.exercise_id == Exercise.id,
-            )
-            ).all()
-    
-    if not exercises:
+
+    if not exercise_sets:
         raise HTTPException(status_code=404, detail="No exercises found in this workout")
     
-    return exercises
+    return exercise_sets
     
 #Amend exercise in workout
 @router.patch("/{workout_id}/sets/{exercise_set_id}", response_model=ExerciseSetRead)

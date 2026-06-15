@@ -77,6 +77,7 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
     return (
     <div>
         <SetList
+        exercises={exercises}
         sets={exerciseSets}
         workout_id={workoutId}
         deleteSet={deleteSet}

@@ -1,13 +1,15 @@
-import type { ExerciseSet } from "../types";
+import type { ExerciseSet, Exercise } from "../types";
 
 type SetListProps = {
   sets: ExerciseSet[];
+  exercises: Exercise[];
   workout_id: number;
   deleteSet: (workout_id: number, set_id: number) => void;
 };
 
 function SetList({
   sets,
+  exercises,
   workout_id,
   deleteSet
 }: SetListProps){
@@ -15,16 +17,24 @@ function SetList({
     <>
     <h2>Workout {workout_id}</h2>
       <h3>Sets</h3>
+
         <ul>
-        {sets.map((set) => (
+          {sets.map((set) => {
+            const exercise = exercises.find(
+            (exercise) => exercise.id === set.exercise_id
+          );
+
+          return(
           <li key={set.id}>
-            Exercise {set.exercise_id}: Set no. {set.set_number} - {set.reps} reps at {set.weight}kg
+            {exercise?.name}: Set no. {set.set_number} - {set.reps} reps at {set.weight}kg
             <button onClick={() => deleteSet(set.workout_id, set.id)}>Delete</button>
           </li>
-        ))}
-        </ul>
+          );
+        })}
+      </ul>
     </>
   );
 }
 
+  
 export default SetList;
