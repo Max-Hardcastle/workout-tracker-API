@@ -3,11 +3,29 @@ import type { Exercise } from "../types";
 type ExerciseListProps = {
   exercises: Exercise[];
   deleteExercise: (exercise_id: number) => void;
+
+  selectedExerciseId: number | null;
+  setSelectedExerciseId: (selectedExerciseId: number | null) => void;
+
+  editExerciseName: string;
+  setEditExerciseName: (editExerciseName: string) => void;
+  
+  editExerciseDescription: string;
+  setEditExerciseDescription: (editExerciseDescription: string) => void;
+
+  updateExercise: (exerciseId: number) => void;
 };
 
 function ExerciseList({
     exercises,
-    deleteExercise
+    deleteExercise,
+    selectedExerciseId,
+    setSelectedExerciseId,
+    editExerciseName,
+    setEditExerciseName,
+    editExerciseDescription,
+    setEditExerciseDescription,
+    updateExercise
 }: ExerciseListProps){
   return (
     <>
@@ -16,8 +34,38 @@ function ExerciseList({
       <ul>
         {exercises.map((ex) => (
           <li key={ex.id}>
-            {ex.id}: <strong>{ex.name}</strong> - {ex.description}
+            <strong>{ex.name}</strong> - {ex.description}
             <button onClick={() => deleteExercise(ex.id)}>Delete</button>
+
+            <button
+              onClick={() => {
+                setSelectedExerciseId(ex.id);
+                setEditExerciseName(String(ex.name));
+                setEditExerciseDescription(String(ex.description));
+              }}
+              >
+                Edit
+            </button>
+
+            {selectedExerciseId === ex.id && (
+              <div>
+                <input
+                  type="string"
+                  value={editExerciseName}
+                  onChange={(e) => setEditExerciseName(e.target.value)}
+                />
+
+                <input
+                  type="string"
+                  value={editExerciseDescription}
+                  onChange={(e) => setEditExerciseDescription(e.target.value)}
+                />
+
+                <button onClick={() => updateExercise(ex.id)}>
+                Update
+                </button>
+              </div>
+            )}
           </li>
         ))}
       </ul>
