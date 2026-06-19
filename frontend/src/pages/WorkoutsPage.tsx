@@ -23,9 +23,12 @@ function WorkoutsPage({ setSelectedWorkoutId }: workoutsPageProps){
     setWorkouts(data);
     };
 
+    //Error state for functions in this page
+    const [error, setError] = useState("");
+
     //Async state for adding a new workout
     const addWorkout = async () => {
-        await fetch("http://127.0.0.1:8000/workouts", {
+        const res = await fetch("http://127.0.0.1:8000/workouts", {
             method: "POST",
             headers: {
             "Content-Type": "application/json"
@@ -35,19 +38,33 @@ function WorkoutsPage({ setSelectedWorkoutId }: workoutsPageProps){
             })
         })
 
+        //Error checking, display message if error
+        if (!res.ok) {
+        setError("Something went wrong when adding this workout.");
+        return;
+        }
+
         //Reset date state back to blank
         setDate("");
 
         fetchWorkouts();
+        setError("")
         };
 
     //Async state for deleting workouts
     const deleteWorkout = async (workout_id: number) => {
-      await fetch(`http://127.0.0.1:8000/workouts/${workout_id}`, {
+      const res = await fetch(`http://127.0.0.1:8000/workouts/${workout_id}`, {
         method: "DELETE"
       });
+
+      //Error checking, display message if error
+      if (!res.ok) {
+      setError("Something went wrong when deleting this workout.");
+      return;
+      }
       
       fetchWorkouts();
+      setError("")
     };
     
 
@@ -63,6 +80,8 @@ function WorkoutsPage({ setSelectedWorkoutId }: workoutsPageProps){
       deleteWorkout={deleteWorkout}
       setSelectedWorkoutId={setSelectedWorkoutId}
       />
+
+      {error && <p>{error}</p>}
 
       <h2>Add Workout</h2>
 

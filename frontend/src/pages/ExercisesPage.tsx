@@ -11,16 +11,28 @@ function ExercisesPage(){
     //State for an empty set of exercises and how to add exercises to it
     const [exercises, setExercises] = useState<Exercise[]>([]);
 
+    //Error state for functions in this page
+    const [error, setError] = useState("");
+
     //Async state for fetching exercises
     const fetchExercises = async() => {
       const res = await fetch("http://127.0.0.1:8000/exercises");
+
+      //Error checking, display message if error
+      if (!res.ok) {
+      setError("Could not load exercises");
+      return;
+    }
+
       const data = await res.json();
       setExercises(data);
+
+      setError("")
     };
 
     //Async state for adding a new exercise
     const addExercise = async () => {
-        await fetch("http://127.0.0.1:8000/exercises", {
+        const res = await fetch("http://127.0.0.1:8000/exercises", {
             method: "POST",
             headers: {
             "Content-Type": "application/json"
@@ -31,20 +43,35 @@ function ExercisesPage(){
             })
         })
 
+        //Error checking, display message if error
+        if (!res.ok) {
+          setError("Could not add exercise");
+          return;
+        }
+
         //Reset name and description states back to blank
         setName("");
         setDescription("");
 
         fetchExercises();
+
+        setError("")
     }
 
     //Async state for deleting exercises
     const deleteExercise = async (exercise_id: number) => {
-      await fetch(`http://127.0.0.1:8000/exercises/${exercise_id}`, {
+      const res = await fetch(`http://127.0.0.1:8000/exercises/${exercise_id}`, {
         method: "DELETE"
       });
+
+      //Error checking, display message if error
+      if (!res.ok) {
+        setError("Could not delete exercise");
+        return;
+      }
       
       fetchExercises();
+      setError("");
     };
 
     //Get exercises from backend, change them to json format, and add them to the set of exercises
@@ -59,21 +86,29 @@ function ExercisesPage(){
   const[editExerciseName, setEditExerciseName] = useState("");
   const[editExerciseDescription, setEditExerciseDescription] = useState("");
 
-  //Asnc state for editing sets
+  //Asnc state for editing exercises
   const updateExercise = async (exerciseId: number) => {
-      await fetch(`http://127.0.0.1:8000/exercises/${exerciseId}`, {
+      const res = await fetch(`http://127.0.0.1:8000/exercises/${exerciseId}`, {
       method: "PATCH",
       headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
+      body: JSON.stringify({
       name: String(editExerciseName),
       description: String(editExerciseDescription),
     }),
   });
 
+      //Error checking, display message if error
+      if (!res.ok) {
+        setError("Could not edit exercise");
+        return;
+      }
+
   fetchExercises();
   setSelectedExerciseId(null);
+
+  setError("")
 };
 
   return (
@@ -89,6 +124,8 @@ function ExercisesPage(){
       setEditExerciseDescription={setEditExerciseDescription}
       updateExercise={updateExercise}
       />
+
+      {error && <p>{error}</p>}
 
       <h2>Add Exercise</h2>
 

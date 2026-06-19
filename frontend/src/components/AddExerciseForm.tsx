@@ -30,8 +30,7 @@ function AddExerciseForm({
             onChange={(e) => setDescription(e.target.value)}
             />
 
-            <button onClick={addExercise}>Add Exercise</button>
-            
+            <button onClick={addExercise}>Add Exercise</button>            
         </div>
         )
 }

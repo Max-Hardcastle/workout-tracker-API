@@ -22,23 +22,46 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
   //State for an empty set of exercises and how to add exercises to it
   const [exercises, setExercises] = useState<Exercise[]>([]);
 
+  //Error state for functions in this page
+  const [error, setError] = useState("");
+
   //Async state for fetching exercises
   const fetchExercises = async() => {
     const res = await fetch("http://127.0.0.1:8000/exercises");
+
+    //Error checking, display message if error
+    if (!res.ok) {
+      setError("Could not load exercises");
+      return;
+    }
+    
     const data = await res.json();
     setExercises(data);
+
+    setError("");
   };
 
   //Async state for fetching exercise sets
   const fetchExerciseSets = async() => {
     const res = await fetch(`http://127.0.0.1:8000/workouts/${workoutId}/sets`);
+    
+    //Error checking, display message if error
+    if (!res.ok) {
+      setError("Could not load sets");
+      return;
+    }
+
     const data = await res.json();
     setExerciseSets(data);
+
+    setError("")
   };
+
+
 
   //Async state for adding a new workout set
   const addWorkoutSet = async () => {
-    await fetch(`http://127.0.0.1:8000/workouts/${workoutId}/sets`, {
+    const res = await fetch(`http://127.0.0.1:8000/workouts/${workoutId}/sets`, {
     method: "POST",
     headers: {
     "Content-Type": "application/json"
@@ -50,8 +73,15 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
       weight: Number(weight)
     })
   })
+
+  //Error checking, display message if error
+  if (!res.ok) {
+  setError("Something went wrong adding this set.");
+  return;
+  }
   
   //Reset states back to blank
+  setError("");
   setExerciseId("");
   setSetNumber("");
   setReps("");
@@ -62,10 +92,16 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
 
   //Async state for deleting sets
   const deleteSet = async (workout_id: number, exercise_set_id: number) => {
-    await fetch(`http://127.0.0.1:8000/workouts/${workout_id}/sets/${exercise_set_id}`, {
+    const res = await fetch(`http://127.0.0.1:8000/workouts/${workout_id}/sets/${exercise_set_id}`, {
       method: "DELETE"
     });
-    
+
+    //Error checking, display message if error
+    if (!res.ok) {
+    setError("Something went wrong deleting this set.");
+    return;
+    }
+  
     fetchExerciseSets();
   };
 
@@ -79,20 +115,28 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
 
   //Asnc state for editing sets
   const updateSet = async (setId: number) => {
-      await fetch(`http://127.0.0.1:8000/workouts/${workoutId}/sets/${setId}`, {
+      const res = await fetch(`http://127.0.0.1:8000/workouts/${workoutId}/sets/${setId}`, {
       method: "PATCH",
       headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
+      body: JSON.stringify({
       set_number: Number(editSetNumber),
       reps: Number(editReps),
       weight: Number(editWeight),
     }),
   });
 
-  fetchExerciseSets();
-  setSelectedSetId(null);
+      //Error checking, display message if error
+      if (!res.ok) {
+      setError("Something went wrong when editing this set.");
+      return;
+      }
+
+      fetchExerciseSets();
+      setSelectedSetId(null);
+
+      setError("")
 };
 
   useEffect(() => {
@@ -118,6 +162,7 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
         updateSet={updateSet}
         />
         
+        {error && <p>{error}</p>}
 
         <AddSetForm
         exercises={exercises}

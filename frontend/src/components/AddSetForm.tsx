@@ -61,8 +61,7 @@ function AddSetForm({
             onChange={(e) => setWeight(e.target.value)}
             />
 
-            <button onClick={addSet}>Add Exercise Set</button>
-            
+            <button onClick={addSet}>Add Exercise Set</button>            
         </div>
         )
 
