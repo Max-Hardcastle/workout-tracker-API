@@ -7,7 +7,6 @@ type AddSetFormProps = {
     reps: string;
     weight: string;
     setExerciseId: React.Dispatch<React.SetStateAction<string>>;
-    setSetNumber: React.Dispatch<React.SetStateAction<string>>;
     setReps: React.Dispatch<React.SetStateAction<string>>;
     setWeight: React.Dispatch<React.SetStateAction<string>>;
     addSet: () => void;
@@ -20,7 +19,6 @@ function AddSetForm({
     reps,
     weight,
     setExerciseId,
-    setSetNumber,
     setReps,
     setWeight,
     addSet
@@ -39,13 +37,6 @@ function AddSetForm({
                 </option>
             ))}
             </select>
-
-            <input
-            type="string"
-            placeholder="Set Number"
-            value = {setNumber}
-            onChange={(e) => setSetNumber(e.target.value)}
-            />
 
             <input
             type="string"

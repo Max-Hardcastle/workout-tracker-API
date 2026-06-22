@@ -61,6 +61,17 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
 
   //Async state for adding a new workout set
   const addWorkoutSet = async () => {
+
+    //Filter for all sets for this exercise
+    const setsForThisExercise = exerciseSets.filter(
+      (set) => set.exercise_id === Number(exercise_id)
+    );
+
+    //Calculate +1 of the highest existing set, unless there are no sets, then next set number is 1
+    const nextSetNumber = 
+      setsForThisExercise.length === 0 ? 1
+      : Math.max(...setsForThisExercise.map((set) => set.set_number)) + 1;
+
     const res = await fetch(`http://127.0.0.1:8000/workouts/${workoutId}/sets`, {
     method: "POST",
     headers: {
@@ -68,7 +79,7 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
     },
     body: JSON.stringify({
       exercise_id: Number(exercise_id),
-      set_number: Number(set_number),
+      set_number: Number(nextSetNumber),
       reps: Number(reps),
       weight: Number(weight)
     })
@@ -108,8 +119,6 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
   //State for selecting set ID for editing set
   const [selectedSetId, setSelectedSetId] = useState<number | null>(null);
 
-  //States for temporary editing components
-  const[editSetNumber, setEditSetNumber] = useState("");
   const[editReps, setEditReps] = useState("");
   const[editWeight, setEditWeight] = useState("");
 
@@ -121,7 +130,6 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
       "Content-Type": "application/json",
     },
       body: JSON.stringify({
-      set_number: Number(editSetNumber),
       reps: Number(editReps),
       weight: Number(editWeight),
     }),
@@ -153,8 +161,6 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
         deleteSet={deleteSet}
         selectedSetId={selectedSetId}
         setSelectedSetId={setSelectedSetId}
-        editSetNumber={editSetNumber}
-        setEditSetNumber={setEditSetNumber}
         editReps={editReps}
         setEditReps={setEditReps}
         editWeight={editWeight}
@@ -172,7 +178,6 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
         weight={weight}
         addSet ={addWorkoutSet}
         setExerciseId={setExerciseId}
-        setSetNumber={setSetNumber}
         setReps={setReps}
         setWeight={setWeight}
         />

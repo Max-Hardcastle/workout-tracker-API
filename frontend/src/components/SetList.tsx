@@ -7,8 +7,6 @@ type SetListProps = {
   deleteSet: (workout_id: number, set_id: number) => void;
   selectedSetId: number | null;
   setSelectedSetId: (set_id: number | null) => void;
-  editSetNumber: string;
-  setEditSetNumber: (editSetNumber: string) => void;
   editReps: string;
   setEditReps: (editReps: string) => void;
   editWeight: string;
@@ -23,8 +21,6 @@ function SetList({
   deleteSet,
   selectedSetId,
   setSelectedSetId,
-  editSetNumber,
-  setEditSetNumber,
   editReps,
   setEditReps,
   editWeight,
@@ -49,7 +45,6 @@ function SetList({
             <button
               onClick={() => {
                 setSelectedSetId(set.id);
-                setEditSetNumber(String(set.set_number));
                 setEditReps(String(set.reps));
                 setEditWeight(String(set.weight));
               }}
@@ -62,12 +57,6 @@ function SetList({
 
             {selectedSetId === set.id && (
               <div>
-                <input
-                  type="number"
-                  value={editSetNumber}
-                  onChange={(e) => setEditSetNumber(e.target.value)}
-                />
-
                 <input
                   type="number"
                   value={editReps}
