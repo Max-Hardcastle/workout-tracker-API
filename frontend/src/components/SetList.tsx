@@ -32,27 +32,32 @@ function SetList({
     <h2>Workout {workout_id}</h2>
       <h3>Sets</h3>
 
-        <ul>
+        <ul className = "list">
           {sets.map((set) => {
             const exercise = exercises.find(
             (exercise) => exercise.id === set.exercise_id
           );
 
           return(
-          <li key={set.id}>
-            {exercise?.name}: Set no. {set.set_number} - {set.reps} reps at {set.weight}kg
+          <li className = "card" key={set.id}>
 
-            <button
-              onClick={() => {
-                setSelectedSetId(set.id);
-                setEditReps(String(set.reps));
-                setEditWeight(String(set.weight));
-              }}
-              >
-                Edit
-              </button>
-          
-            <button onClick={() => deleteSet(set.workout_id, set.id)}>Delete</button>
+            <div className = "cardContents">
+              {exercise?.name}: {set.reps} reps at {set.weight}kg
+            </div>
+
+            <div className = "cardActions">
+              <button
+                onClick={() => {
+                  setSelectedSetId(set.id);
+                  setEditReps(String(set.reps));
+                  setEditWeight(String(set.weight));
+                }}
+                >
+                  Edit
+                </button>
+            
+              <button onClick={() => deleteSet(set.workout_id, set.id)}>Delete</button>
+            </div>
 
 
             {selectedSetId === set.id && (

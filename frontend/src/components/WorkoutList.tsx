@@ -15,12 +15,18 @@ function WorkoutList({
     <>
       <h2>Workouts</h2>
 
-      <ul>
+      <ul className = "list">
         {workouts.map((wrk) => (
-          <li key={wrk.id}>
-            Workout {wrk.id}: <strong>{wrk.workout_date}</strong>
-            <button onClick={() => setSelectedWorkoutId(wrk.id)}>Edit/View</button>
-            <button onClick={() => deleteWorkout(wrk.id)}>Delete</button>
+          <li className = "card" key={wrk.id}>
+            
+            <div className = "cardContents">
+              Workout {wrk.id}: <strong>{wrk.workout_date}</strong>
+            </div>
+
+            <div className = "cardActions">
+              <button onClick={() => setSelectedWorkoutId(wrk.id)}>Edit/View</button>
+              <button onClick={() => deleteWorkout(wrk.id)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>

@@ -12,7 +12,7 @@ function App() {
   const [selectedWorkoutId, setSelectedWorkoutId] = useState<number | null>(null);
 
   return (
-    <div>
+    <div className="app-container">
       <h1>Workout Tracker</h1>
 
       <nav>

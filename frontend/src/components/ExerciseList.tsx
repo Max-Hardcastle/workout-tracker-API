@@ -31,21 +31,26 @@ function ExerciseList({
     <>
       <h2>Exercises</h2>
 
-      <ul>
+      <ul className = "list">
         {exercises.map((ex) => (
-          <li key={ex.id}>
-            <strong>{ex.name}</strong> - {ex.description}
-            <button onClick={() => deleteExercise(ex.id)}>Delete</button>
+          <li className = "card" key={ex.id}>
 
-            <button
-              onClick={() => {
-                setSelectedExerciseId(ex.id);
-                setEditExerciseName(String(ex.name));
-                setEditExerciseDescription(String(ex.description));
-              }}
-              >
-                Edit
-            </button>
+            <div className = "cardContent">
+              <strong>{ex.name}</strong> - {ex.description}
+            </div>
+
+            <div className = "cardActions">
+              <button onClick={() => deleteExercise(ex.id)}>Delete</button>
+              <button
+                onClick={() => {
+                  setSelectedExerciseId(ex.id);
+                  setEditExerciseName(String(ex.name));
+                  setEditExerciseDescription(String(ex.description));
+                }}
+                >
+                  Edit
+              </button>
+            </div>
 
             {selectedExerciseId === ex.id && (
               <div>
