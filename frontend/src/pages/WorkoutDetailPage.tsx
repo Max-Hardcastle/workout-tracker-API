@@ -170,6 +170,8 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
         
         {error && <p>{error}</p>}
 
+        <h2>Add Set</h2>
+
         <AddSetForm
         exercises={exercises}
         exerciseId={exercise_id}
@@ -182,7 +184,9 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
         setWeight={setWeight}
         />
 
-        <button onClick={goBack}>Back to workouts</button>
+        <div className = "setButtons">
+          <button onClick={goBack}>Back to workouts</button>
+        </div>
     </div>
   );
 }

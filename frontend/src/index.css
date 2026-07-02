@@ -46,17 +46,27 @@ button {
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
 }
 
 .cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-
+.editCardContent{
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .cardActions {
   margin-right: 8px;
-}
-
-.card button {
-    margin-right: 8px;
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
 }

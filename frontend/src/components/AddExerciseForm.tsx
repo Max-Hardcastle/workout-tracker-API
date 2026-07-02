@@ -16,21 +16,25 @@ function AddExerciseForm({
 }: AddExerciseFormProps){
     return(
         <div>
-            <input
-            type="text"
-            placeholder="Exercise name"
-            value = {name}
-            onChange={(e) => setName(e.target.value)}
-            />
+            <div className = "cardContent">
+                <input
+                type="text"
+                placeholder="Exercise name"
+                value = {name}
+                onChange={(e) => setName(e.target.value)}
+                />
 
-            <input
-            type="text"
-            placeholder="Description"
-            value = {description}
-            onChange={(e) => setDescription(e.target.value)}
-            />
+                <input
+                type="text"
+                placeholder="Description"
+                value = {description}
+                onChange={(e) => setDescription(e.target.value)}
+                />
+            </div>
 
-            <button onClick={addExercise}>Add Exercise</button>            
+            <div className = "cardActions">
+                <button onClick={addExercise}>Add Exercise</button>        
+            </div>    
         </div>
         )
 }

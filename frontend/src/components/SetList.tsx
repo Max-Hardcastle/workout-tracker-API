@@ -41,7 +41,7 @@ function SetList({
           return(
           <li className = "card" key={set.id}>
 
-            <div className = "cardContents">
+            <div className = "cardContent">
               {exercise?.name}: {set.reps} reps at {set.weight}kg
             </div>
 
@@ -59,24 +59,27 @@ function SetList({
               <button onClick={() => deleteSet(set.workout_id, set.id)}>Delete</button>
             </div>
 
-
             {selectedSetId === set.id && (
               <div>
-                <input
-                  type="number"
-                  value={editReps}
-                  onChange={(e) => setEditReps(e.target.value)}
-                />
+                <div className = "editCardContent">
+                  <input
+                    type="number"
+                    value={editReps}
+                    onChange={(e) => setEditReps(e.target.value)}
+                  />
 
-                <input
-                  type="number"
-                  value={editWeight}
-                  onChange={(e) => setEditWeight(e.target.value)}
-                />
+                  <input
+                    type="number"
+                    value={editWeight}
+                    onChange={(e) => setEditWeight(e.target.value)}
+                  />
+                </div>
 
-                <button onClick={() => updateSet(set.id)}>
-                Update
-                </button>
+                <div className = "cardActions">
+                  <button onClick={() => updateSet(set.id)}>
+                    Update
+                  </button>
+                </div>
               
               </div>
               )}    

@@ -36,7 +36,7 @@ function ExerciseList({
           <li className = "card" key={ex.id}>
 
             <div className = "cardContent">
-              <strong>{ex.name}</strong> - {ex.description}
+              <strong>{ex.name}</strong>{ex.description}
             </div>
 
             <div className = "cardActions">
@@ -54,21 +54,26 @@ function ExerciseList({
 
             {selectedExerciseId === ex.id && (
               <div>
-                <input
-                  type="string"
-                  value={editExerciseName}
-                  onChange={(e) => setEditExerciseName(e.target.value)}
-                />
+                <div className = "editCardContent">
+                  <input
+                    type="string"
+                    value={editExerciseName}
+                    onChange={(e) => setEditExerciseName(e.target.value)}
+                  />
 
-                <input
-                  type="string"
-                  value={editExerciseDescription}
-                  onChange={(e) => setEditExerciseDescription(e.target.value)}
-                />
+                  <input
+                    type="string"
+                    value={editExerciseDescription}
+                    onChange={(e) => setEditExerciseDescription(e.target.value)}
+                  />
+                </div>
 
-                <button onClick={() => updateExercise(ex.id)}>
-                Update
-                </button>
+                <div className = "cardActions">
+                  <button onClick={() => updateExercise(ex.id)}>
+                    Update
+                  </button>
+                </div>
+
               </div>
             )}
           </li>

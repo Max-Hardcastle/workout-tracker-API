@@ -25,34 +25,38 @@ function AddSetForm({
 }: AddSetFormProps){
         return(
         <div>
-            <select
-            value={exerciseId}
-            onChange={(e) => setExerciseId(e.target.value)}
-            >
-            <option value="">Select exercise</option>
+            <div className = "cardContent">
+                <select
+                value={exerciseId}
+                onChange={(e) => setExerciseId(e.target.value)}
+                >
+                <option value="">Select exercise</option>
 
-            {exercises.map((exercise) => (
-                <option key={exercise.id} value={exercise.id}>
-                    {exercise.name}
-                </option>
-            ))}
-            </select>
+                {exercises.map((exercise) => (
+                    <option key={exercise.id} value={exercise.id}>
+                        {exercise.name}
+                    </option>
+                ))}
+                </select>
 
-            <input
-            type="string"
-            placeholder="Reps"
-            value = {reps}
-            onChange={(e) => setReps(e.target.value)}
-            />
+                <input
+                type="string"
+                placeholder="Reps"
+                value = {reps}
+                onChange={(e) => setReps(e.target.value)}
+                />
 
-            <input
-            type="string"
-            placeholder="Weight (kg)"
-            value = {weight}
-            onChange={(e) => setWeight(e.target.value)}
-            />
+                <input
+                type="string"
+                placeholder="Weight (kg)"
+                value = {weight}
+                onChange={(e) => setWeight(e.target.value)}
+                />
+            </div>
 
-            <button onClick={addSet}>Add Exercise Set</button>            
+            <div className = "cardActions">
+                <button onClick={addSet}>Add Exercise Set</button> 
+            </div>           
         </div>
         )
 
