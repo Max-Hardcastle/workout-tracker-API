@@ -40,7 +40,7 @@ function ExerciseList({
             </div>
 
             <div className = "cardActions">
-              <button onClick={() => deleteExercise(ex.id)}>Delete</button>
+              
               <button
                 onClick={() => {
                   setSelectedExerciseId(ex.id);
@@ -50,6 +50,10 @@ function ExerciseList({
                 >
                   Edit
               </button>
+              
+              <button
+              className="deleteButton"
+              onClick={() => deleteExercise(ex.id)}>Delete</button>
             </div>
 
             {selectedExerciseId === ex.id && (

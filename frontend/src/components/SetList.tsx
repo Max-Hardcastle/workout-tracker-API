@@ -56,7 +56,9 @@ function SetList({
                   Edit
                 </button>
             
-              <button onClick={() => deleteSet(set.workout_id, set.id)}>Delete</button>
+              <button
+              className="deleteButton"
+              onClick={() => deleteSet(set.workout_id, set.id)}>Delete</button>
             </div>
 
             {selectedSetId === set.id && (

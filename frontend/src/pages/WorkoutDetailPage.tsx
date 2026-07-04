@@ -184,7 +184,7 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
         setWeight={setWeight}
         />
 
-        <div className = "setButtons">
+        <div className = "cardActions">
           <button onClick={goBack}>Back to workouts</button>
         </div>
     </div>

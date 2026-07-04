@@ -10,7 +10,7 @@ function AddWorkoutForm({
     addWorkout
 }: AddWorkoutFormProps){
     return(
-        <div>
+        <div className = "cardActions">
             <input
             type="text"
             placeholder="Date of workout"

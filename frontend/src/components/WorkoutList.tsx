@@ -25,7 +25,9 @@ function WorkoutList({
 
             <div className = "cardActions">
               <button onClick={() => setSelectedWorkoutId(wrk.id)}>Edit/View</button>
-              <button onClick={() => deleteWorkout(wrk.id)}>Delete</button>
+              <button
+              className="deleteButton"
+              onClick={() => deleteWorkout(wrk.id)}>Delete</button>
             </div>
           </li>
         ))}

@@ -16,13 +16,15 @@ function App() {
       <h1>Workout Tracker</h1>
 
       <nav>
-        <button onClick={() => setPage("exercises")}>
-          Exercises
-        </button>
+        <div className = "headerButtons">
+          <button onClick={() => setPage("exercises")}>
+            Exercises
+          </button>
 
-        <button onClick={() => setPage("workouts")}>
-          Workouts
-        </button>
+          <button onClick={() => setPage("workouts")}>
+            Workouts
+          </button>
+        </div>
       </nav>
 
       {page === "exercises" && <ExercisesPage />}
