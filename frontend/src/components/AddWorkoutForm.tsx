@@ -12,7 +12,7 @@ function AddWorkoutForm({
     return(
         <div className = "cardActions">
             <input
-            type="text"
+            type="date"
             placeholder="Date of workout"
             value = {workout_date}
             onChange={(e) => setDate(e.target.value)}

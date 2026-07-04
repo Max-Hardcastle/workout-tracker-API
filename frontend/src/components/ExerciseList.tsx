@@ -76,6 +76,11 @@ function ExerciseList({
                   <button onClick={() => updateExercise(ex.id)}>
                     Update
                   </button>
+
+                  <button onClick={() => {setSelectedExerciseId(null)}}>
+                    Cancel
+                  </button>
+
                 </div>
 
               </div>

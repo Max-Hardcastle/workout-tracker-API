@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, APIRouter
-from schemas import ExerciseBase, ExerciseRead, ExerciseUpdate
+from schemas import ExerciseCreate, ExerciseRead, ExerciseUpdate
 from sqlmodel import Session, select
 from database import get_session
 from models import Exercise
@@ -23,7 +23,7 @@ def get_exercise(exercise_id: int, session: Session = Depends(get_session)):
 
 #Create new exercise
 @router.post("/", response_model=ExerciseRead, status_code=201)
-def create_exercise(ex: ExerciseBase, session: Session = Depends(get_session)):
+def create_exercise(ex: ExerciseCreate, session: Session = Depends(get_session)):
     db_ex = Exercise(**ex.model_dump())
     session.add(db_ex)
     session.commit()
