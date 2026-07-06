@@ -1,21 +1,39 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from datetime import date
 from typing import Optional
 
 #'Exercise' standard schemas
 class ExerciseCreate(BaseModel):
     name: str = Field(min_length=1, max_length=100)
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value):
+        value = value.strip()
+
+        if not value:
+            raise ValueError("Exercise name cannot be empty.")
+        
+        return value
+
+
     description: str = Field(min_length=1, max_length=100)
+    @field_validator("description")
+    @classmethod
+    def validate_description(cls, value):
+        value = value.strip()
+
+        if not value:
+            raise ValueError("Description cannot be empty.")
+        
+        return value
 
 class ExerciseRead(BaseModel):
     id: int
     name: str
     description: str
 
-class ExerciseUpdate(BaseModel):
-    name: str = Field(min_length=1, max_length=100)
-    description: str = Field(min_length=1, max_length=100)
-
+class ExerciseUpdate(ExerciseCreate):
+    pass
 
 #'Workout' standard schemas
 class WorkoutCreate(BaseModel):
@@ -31,8 +49,8 @@ class WorkoutUpdate(BaseModel):
 
 #Workout/Exercise interaction schemas
 class ExerciseSetCreate(BaseModel):
-    exercise_id: int
-    set_number: int
+    exercise_id: int = Field(gt=0)
+    set_number: int = Field(gt=0, le=100)
 
     reps: int = Field(gt=0, le=100)
     weight: float = Field(ge=0, le=1000)
