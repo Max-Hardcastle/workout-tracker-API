@@ -18,11 +18,12 @@ function ExercisesPage(){
     const fetchExercises = async() => {
       const res = await fetch("http://127.0.0.1:8000/exercises");
 
-      //Error checking, display message if error
+      //Error checking, display backend message or generic error
       if (!res.ok) {
-      setError("Could not load exercises");
-      return;
-    }
+        const errorData = await res.json();
+        setError(errorData.detail?.[0]?.msg || "Could not load exercises");
+        return;
+      }
 
       const data = await res.json();
       setExercises(data);
@@ -43,9 +44,10 @@ function ExercisesPage(){
             })
         })
 
-        //Error checking, display message if error
+        //Error checking, display backend message or generic error
         if (!res.ok) {
-          setError("Could not add exercise");
+          const errorData = await res.json();
+          setError(errorData.detail?.[0]?.msg || "Could not add exercise");
           return;
         }
 
@@ -64,9 +66,10 @@ function ExercisesPage(){
         method: "DELETE"
       });
 
-      //Error checking, display message if error
+      //Error checking, display backend message or generic error
       if (!res.ok) {
-        setError("Could not delete exercise");
+        const errorData = await res.json();
+        setError(errorData.detail?.[0]?.msg || "Could not delete exercise");
         return;
       }
       
@@ -99,9 +102,10 @@ function ExercisesPage(){
     }),
   });
 
-      //Error checking, display message if error
+      //Error checking, display backend message or generic error
       if (!res.ok) {
-        setError("Could not edit exercise");
+        const errorData = await res.json();
+        setError(errorData.detail?.[0]?.msg || "Could not edit exercise");
         return;
       }
 
@@ -125,7 +129,9 @@ function ExercisesPage(){
       updateExercise={updateExercise}
       />
 
-      {error && <p>{error}</p>}
+      <div className = "error">
+        {error && <p>{error}</p>}
+      </div>
 
       <h2>Add Exercise</h2>
 

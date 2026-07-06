@@ -38,10 +38,11 @@ function WorkoutsPage({ setSelectedWorkoutId }: workoutsPageProps){
             })
         })
 
-        //Error checking, display message if error
+        //Error checking, display backend message or generic error
         if (!res.ok) {
-        setError("Something went wrong when adding this workout.");
-        return;
+          const errorData = await res.json();
+          setError(errorData.detail?.[0]?.msg || "Workout could not be added");
+          return;
         }
 
         //Reset date state back to blank
@@ -57,11 +58,12 @@ function WorkoutsPage({ setSelectedWorkoutId }: workoutsPageProps){
         method: "DELETE"
       });
 
-      //Error checking, display message if error
-      if (!res.ok) {
-      setError("Something went wrong when deleting this workout.");
-      return;
-      }
+      //Error checking, display backend message or generic error
+        if (!res.ok) {
+          const errorData = await res.json();
+          setError(errorData.detail?.[0]?.msg || "Workout could not be deleted");
+          return;
+        }
       
       fetchWorkouts();
       setError("")
@@ -81,7 +83,11 @@ function WorkoutsPage({ setSelectedWorkoutId }: workoutsPageProps){
       setSelectedWorkoutId={setSelectedWorkoutId}
       />
 
-      {error && <p>{error}</p>}
+      <div className="error">
+        {error && <p>{error}</p>}
+      </div>
+
+
 
       <h2>Add Workout</h2>
 

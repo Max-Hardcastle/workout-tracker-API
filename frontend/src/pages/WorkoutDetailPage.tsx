@@ -45,9 +45,10 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
   const fetchExerciseSets = async() => {
     const res = await fetch(`http://127.0.0.1:8000/workouts/${workoutId}/sets`);
     
-    //Error checking, display message if error
+    //Error checking, display backend message or generic error
     if (!res.ok) {
-      setError("Could not load sets");
+      const errorData = await res.json();
+      setError(errorData.detail?.[0]?.msg || "Set could not be edited");
       return;
     }
 
@@ -85,10 +86,11 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
     })
   })
 
-  //Error checking, display message if error
+  //Error checking, display backend message or generic error
   if (!res.ok) {
-  setError("Something went wrong adding this set.");
-  return;
+    const errorData = await res.json();
+    setError(errorData.detail?.[0]?.msg || "Set could not be added");
+    return;
   }
   
   //Reset states back to blank
@@ -107,10 +109,11 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
       method: "DELETE"
     });
 
-    //Error checking, display message if error
+    //Error checking, display backend message or generic error
     if (!res.ok) {
-    setError("Something went wrong deleting this set.");
-    return;
+      const errorData = await res.json();
+      setError(errorData.detail?.[0]?.msg || "Set could not be deleted");
+      return;
     }
   
     fetchExerciseSets();
@@ -135,10 +138,11 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
     }),
   });
 
-      //Error checking, display message if error
+    //Error checking, display backend message or generic error
       if (!res.ok) {
-      setError("Something went wrong when editing this set.");
-      return;
+        const errorData = await res.json();
+        setError(errorData.detail?.[0]?.msg || "Set could not be edited");
+        return;
       }
 
       fetchExerciseSets();
@@ -168,7 +172,9 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
         updateSet={updateSet}
         />
         
-        {error && <p>{error}</p>}
+        <div className="error">
+          {error && <p>{error}</p>}
+        </div>
 
         <h2>Add Set</h2>
 
