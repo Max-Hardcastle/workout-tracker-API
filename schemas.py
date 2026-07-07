@@ -4,26 +4,26 @@ from typing import Optional
 
 #'Exercise' standard schemas
 class ExerciseCreate(BaseModel):
-    name: str = Field(min_length=1, max_length=100)
+    name: str = Field(max_length=100)
     @field_validator("name")
     @classmethod
     def validate_name(cls, value):
         value = value.strip()
 
         if not value:
-            raise ValueError("Exercise name cannot be empty.")
+            raise ValueError("exercise name cannot be empty.")
         
         return value
 
 
-    description: str = Field(min_length=1, max_length=100)
+    description: str = Field(max_length=100)
     @field_validator("description")
     @classmethod
     def validate_description(cls, value):
         value = value.strip()
 
         if not value:
-            raise ValueError("Description cannot be empty.")
+            raise ValueError("description cannot be empty.")
         
         return value
 
@@ -49,7 +49,15 @@ class WorkoutUpdate(BaseModel):
 
 #Workout/Exercise interaction schemas
 class ExerciseSetCreate(BaseModel):
-    exercise_id: int = Field(gt=0)
+    exercise_id: int
+    @field_validator("exercise_id")
+    @classmethod
+    def validate_exercise_id(cls, value):        
+        if not value:
+            raise ValueError("exercise cannot be blank.")
+        
+        return value
+    
     set_number: int = Field(gt=0, le=100)
 
     reps: int = Field(gt=0, le=100)

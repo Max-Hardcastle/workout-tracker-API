@@ -20,7 +20,7 @@ function WorkoutList({
           <li className = "card" key={wrk.id}>
             
             <div className = "cardContents">
-              Workout {wrk.id}: <strong>{wrk.workout_date}</strong>
+              <strong>Workout: {wrk.workout_date}</strong>
             </div>
 
             <div className = "cardActions">

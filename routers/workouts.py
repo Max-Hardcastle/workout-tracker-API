@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, select
+from sqlmodel import Session, select, delete
 from schemas import WorkoutCreate, WorkoutRead, WorkoutUpdate, ExerciseSetRead, ExerciseSetCreate, ExerciseRead, ExerciseSetUpdate
 from database import get_session
 from models import Workout, Exercise, ExerciseSet
+import models
 
 router = APIRouter(prefix="/workouts", tags=["Workouts"])
 
@@ -63,6 +64,14 @@ def delete_workout(
     if workout is None:
         raise HTTPException(status_code=404, detail="Workout not found")
     
+    #Delete sets within the workout
+    session.exec(
+        delete(ExerciseSet).where(
+            ExerciseSet.workout_id == workout_id
+        )
+    )
+
+    #Delete workout
     session.delete(workout)
     session.commit()
 
