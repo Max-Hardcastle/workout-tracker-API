@@ -175,7 +175,6 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
         workoutDate={workoutDate}
         exercises={exercises}
         sets={exerciseSets}
-        workout_id={workoutId}
         deleteSet={deleteSet}
         selectedSetId={selectedSetId}
         setSelectedSetId={setSelectedSetId}

@@ -1,8 +1,8 @@
 from fastapi import Depends, HTTPException, APIRouter
 from schemas import ExerciseCreate, ExerciseRead, ExerciseUpdate
-from sqlmodel import Session, select
+from sqlmodel import Session, select, delete
 from database import get_session
-from models import Exercise
+from models import Exercise, ExerciseSet
 
 router = APIRouter(prefix="/exercises", tags=["Exercises"])
 
@@ -61,6 +61,13 @@ def delete_exercise(
     exercise = session.get(Exercise, exercise_id)
     if exercise is None:
         raise HTTPException(status_code=404, detail="Exercise not found")
+    
+    #Delete sets linked to this exercise
+    session.exec(
+        delete(ExerciseSet).where(
+            ExerciseSet.exercise_id == exercise_id
+        )
+    )
     
     session.delete(exercise)
     session.commit()

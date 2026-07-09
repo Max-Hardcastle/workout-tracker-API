@@ -4,7 +4,6 @@ type SetListProps = {
   workoutDate: string;
   sets: ExerciseSet[];
   exercises: Exercise[];
-  workout_id: number;
   deleteSet: (workout_id: number, set_id: number) => void;
   selectedSetId: number | null;
   setSelectedSetId: (set_id: number | null) => void;
@@ -19,7 +18,6 @@ function SetList({
   workoutDate,
   sets,
   exercises,
-  workout_id,
   deleteSet,
   selectedSetId,
   setSelectedSetId,
