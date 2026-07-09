@@ -1,6 +1,7 @@
 import type { ExerciseSet, Exercise } from "../types";
 
 type SetListProps = {
+  workoutDate: string;
   sets: ExerciseSet[];
   exercises: Exercise[];
   workout_id: number;
@@ -15,6 +16,7 @@ type SetListProps = {
 };
 
 function SetList({
+  workoutDate,
   sets,
   exercises,
   workout_id,
@@ -29,7 +31,7 @@ function SetList({
 }: SetListProps){
   return (
     <>
-    <h2>Workout {workout_id}</h2>
+    <h2>Workout {workoutDate}</h2>
       <h3>Sets</h3>
 
         <ul className = "list">

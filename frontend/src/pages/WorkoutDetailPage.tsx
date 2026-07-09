@@ -22,6 +22,19 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
   //State for an empty set of exercises and how to add exercises to it
   const [exercises, setExercises] = useState<Exercise[]>([]);
 
+  //State and function for getting the workout date
+  const [workoutDate, setWorkoutDate] = useState("");
+
+  useEffect(()=> {
+    const fetchWorkout = async() => {
+      const res = await fetch(`http://127.0.0.1:8000/workouts/${workoutId}`);
+      const data = await res.json();
+      setWorkoutDate(data.workout_date);
+    }
+
+    fetchWorkout();
+  }, [workoutId]);
+
   //Error state for functions in this page
   const [error, setError] = useState("");
 
@@ -63,7 +76,7 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
   //Async state for adding a new workout set
   const addWorkoutSet = async () => {
 
-    //Filter for all sets for this exercise
+    //Filter for all existing sets for this exercise
     const setsForThisExercise = exerciseSets.filter(
       (set) => set.exercise_id === Number(exercise_id)
     );
@@ -159,6 +172,7 @@ function WorkoutDetailPage({workoutId, goBack}: WorkoutDetailPageProps){
     return (
     <div>
         <SetList
+        workoutDate={workoutDate}
         exercises={exercises}
         sets={exerciseSets}
         workout_id={workoutId}

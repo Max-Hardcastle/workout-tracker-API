@@ -8,7 +8,7 @@ function App() {
   //Current page, default to workouts
   const [page, setPage] = useState("workouts");
 
-  //Selected workout ID
+  //Selected workout ID and date
   const [selectedWorkoutId, setSelectedWorkoutId] = useState<number | null>(null);
 
   return (
@@ -29,7 +29,7 @@ function App() {
 
       {page === "exercises" && <ExercisesPage />}
       {page === "workouts" && selectedWorkoutId === null && (
-        <WorkoutsPage setSelectedWorkoutId={setSelectedWorkoutId} />
+        <WorkoutsPage setSelectedWorkoutId={setSelectedWorkoutId}/>
       )}
 
       {page === "workouts" && selectedWorkoutId !== null && (
