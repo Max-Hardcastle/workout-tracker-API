@@ -3,7 +3,6 @@ import type { Exercise } from "../types"
 type AddSetFormProps = {
     exercises: Exercise[];
     exerciseId: string;
-    setNumber: string;
     reps: string;
     weight: string;
     setExerciseId: React.Dispatch<React.SetStateAction<string>>;
@@ -15,7 +14,6 @@ type AddSetFormProps = {
 function AddSetForm({
     exercises,
     exerciseId,
-    setNumber,
     reps,
     weight,
     setExerciseId,

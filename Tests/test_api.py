@@ -2,7 +2,6 @@ import pytest
 import os
 from fastapi.testclient import TestClient
 from sqlmodel import SQLModel, Session, create_engine
-from models import Exercise
 from main import app
 from database import get_session
 
@@ -129,7 +128,8 @@ def test_delete_exercise(client):
 
 #Test editing an exercise
 def test_amend(client):
-        #create data to be amended
+    
+    #create data to be amended
     added = client.post(
         "/exercises",
         json={
@@ -147,6 +147,7 @@ def test_amend(client):
     amended = client.patch(
         f"/exercises/{added_id}",
         json={
+            "name": "Bench Press",
             "description": "Chest Press Movement"
         }
     )
@@ -501,7 +502,7 @@ def test_get_all_workout_exercises(client):
     created_wrk = added_wrk.json()
     added_wrk_id = created_wrk["id"]
 
-    #Add exercise 1
+    #Add set 1
     combine = client.post(
         f"/workouts/{added_wrk_id}/sets",
         json={
@@ -533,8 +534,8 @@ def test_get_all_workout_exercises(client):
     data = response.json()
 
     assert len(data) == 2
-    assert data[0]["name"] == "Bench Press"
-    assert data[1]["name"] == "Squat"
+    assert data[0]["weight"] == 50
+    assert data[1]["weight"] == 100
 
 #Test editing a set within a workout
 def test_edit_workout_set(client):
@@ -582,7 +583,7 @@ def test_edit_workout_set(client):
     amended = client.patch(
         f"/workouts/{added_wrk_id}/sets/{exercise_set_id}",
         json={
-              "reps": 200,
+              "reps": 50,
               "weight": 1
         }
     )
@@ -591,5 +592,5 @@ def test_edit_workout_set(client):
 
     print(amended_details)
 
-    assert amended_details["reps"] == 200
+    assert amended_details["reps"] == 50
     assert amended_details["weight"] == 1
