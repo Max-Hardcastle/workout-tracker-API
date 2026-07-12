@@ -17,6 +17,7 @@ function AddExerciseForm({
     return(
         <div>
             <div className = "cardContent">
+
                 <input
                 type="text"
                 placeholder="Exercise name"
@@ -24,8 +25,8 @@ function AddExerciseForm({
                 onChange={(e) => setName(e.target.value)}
                 />
 
-                <input
-                type="text"
+                <textarea
+                className = "largeInput"
                 placeholder="Description"
                 value = {description}
                 onChange={(e) => setDescription(e.target.value)}

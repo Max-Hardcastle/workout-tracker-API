@@ -59,18 +59,21 @@ function ExerciseList({
             {selectedExerciseId === ex.id && (
               <div>
                 <div className = "editCardContent">
-                  <input
-                    type="string"
-                    value={editExerciseName}
-                    onChange={(e) => setEditExerciseName(e.target.value)}
-                  />
+                    <label>Name:</label>
+                    <input
+                      type="string"
+                      value={editExerciseName}
+                      onChange={(e) => setEditExerciseName(e.target.value)}
+                    />
 
-                  <input
-                    type="string"
-                    value={editExerciseDescription}
-                    onChange={(e) => setEditExerciseDescription(e.target.value)}
-                  />
-                </div>
+                      <label>Description:</label>
+                      <textarea
+                        className="largeInput"
+                        value={editExerciseDescription}
+                        onChange={(e) => setEditExerciseDescription(e.target.value)}
+                      />
+
+                 </div>
 
                 <div className = "cardActions">
                   <button onClick={() => updateExercise(ex.id)}>

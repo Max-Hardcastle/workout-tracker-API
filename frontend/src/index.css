@@ -65,7 +65,8 @@ button:hover {
 
 input,
 select,
-button {
+button,
+textarea {
   font: inherit;
 }
 
@@ -98,6 +99,20 @@ button {
   gap: 0.5rem;
 }
 
+.editCardContent input{
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.editCardContent textarea{
+  margin-left: 5%;
+  margin-right: 5%;
+  white-space: pre-wrap; 
+  word-wrap: break-word;
+  max-width: 400px;
+  resize: vertical;
+}
+
 .cardActions {
   margin-right: 8px;
   margin-top: 1rem;
@@ -109,3 +124,26 @@ button {
 .error {
   color: red;
 }
+
+.setSameLine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .75rem;
+}
+
+.setSameLine input {
+  width: 3rem;
+}
+
+.setSameLine label {
+  width: 4rem;
+  text-align: right;
+}
+
+.largeInput{
+  height: 3rem;
+  resize: vertical;
+  min-height: 3rem;
+}
+

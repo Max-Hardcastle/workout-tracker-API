@@ -64,17 +64,25 @@ function SetList({
             {selectedSetId === set.id && (
               <div>
                 <div className = "editCardContent">
-                  <input
-                    type="number"
-                    value={editReps}
-                    onChange={(e) => setEditReps(e.target.value)}
-                  />
 
-                  <input
-                    type="number"
-                    value={editWeight}
-                    onChange={(e) => setEditWeight(e.target.value)}
-                  />
+                  <div className = "setSameLine">
+                    <label>Reps:</label>
+                    <input
+                      type="number"
+                      value={editReps}
+                      onChange={(e) => setEditReps(e.target.value)}
+                    />
+                  </div>
+
+                  <div className = "setSameLine">
+                    <label>Weight:</label>
+                    <input
+                      type="number"
+                      value={editWeight}
+                      onChange={(e) => setEditWeight(e.target.value)}
+                    />
+                    </div>
+
                 </div>
 
                 <div className = "cardActions">
