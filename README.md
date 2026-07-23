@@ -1,68 +1,127 @@
-## Overview
-This is an API to allow users to manage exercises in the context of a workout tracker.
-Future development will look to extend functionality so users can add exercises and corresponding reps and sets to a 'workout'.
+# Workout Tracker
 
-## The API allows users to:
-- Create exercises
-- Retrieve all exercises
-- Retrieve a single exercise
-- Delete exercises
-- Edit exercises
+## Overview
+
+This is a full-stack workout tracker built using FastAPI and React.
+
+The project began as an API for managing exercises and has since been expanded to allow users to:
+
+- Manage exercises
+- Create workouts
+- Add exercise sets to workouts
+- Record reps and weight
+- Edit and delete existing data
+
+The project was created to develop my understanding of API development, relational databases, frontend development, validation and automated testing.
+
+## Features
+
+The application allows users to:
+
+- Create, view, edit and delete exercises
+- Create, view, edit and delete workouts
+- Add exercise sets to a workout
+- Record the exercise, number of reps and weight for each set
+- Edit and delete sets
+- View all sets associated with a workout
+- Validate submitted data
+- Display backend validation errors in the frontend
+
+Deleting an exercise or workout also deletes any associated exercise sets.
 
 ## Tech Stack
-- Python 3.10+
+
+### Backend
+
+- Python
 - FastAPI
 - SQLModel
 - SQLite
+- Pydantic
 - pytest
 
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- Vitest
+- React Testing Library
+
 ## Setup Instructions
-- git clone <https://github.com/Max-Hardcastle/workout-tracker-API>
-- cd workout-tracker-API
-- python -m venv venv
-- venv\Scripts\activate   # Windows
-- pip install -r requirements.txt
 
-## Running Instructions
-- uvicorn main:app --reload
-- visit the following address and interact via Swagger UI http://127.0.0.1:8000/docs
+Clone the repository:
 
-## Example endpoints:
+git clone https://github.com/Max-Hardcastle/workout-tracker-API
+cd workout-tracker-API
 
-### Create an exercise
-POST /exercises
+Create and activate a Python virtual environment:
 
-{
-  "name": "Bench Press",
-  "description": "Chest pressing movement"
-}
+python -m venv myenv
 
-### Get all exercises
-GET /exercises
+Windows:
 
-### Get one exercise
-GET /exercises/{exercise_id}
+myenv\Scripts\activate
 
-### Delete an exercise
-DELETE /exercises/{exercise_id}
+Install the backend dependencies:
 
-### Amend an exercise
-PATCH /exercises/{exercise_id}
+pip install -r requirements.txt
 
-{
-  "name": "Squat",
-  "description": "Freeweight leg pressing movement"
-}
+Install the frontend dependencies:
+
+cd frontend
+npm install
+
+## Running the Application
+
+The backend and frontend run in separate terminals.
+
+### Backend
+
+From the project root:
+
+uvicorn main:app --reload
+
+The API will be available at: http://127.0.0.1:8000
+
+Swagger documentation: http://127.0.0.1:8000/docs
+
+### Frontend
+
+From the `frontend` folder:
+
+npm run dev
+
+The frontend will usually be available at: http://localhost:5173
+
+## Validation
+
+Pydantic schemas are used to validate incoming API requests. Validation errors returned by the API are displayed in the React frontend.
 
 ## Testing
-Pytest is used for automated testing. Tests cover:
-- Getting the root
-- Getting all exercises when the database is empty
-- Getting all exercises when the database contains data
-- Creating an exercise
-- Getting a specific exercise
-- Deleting an exercise
-- Editing an exercise
 
-### Run Tests Instructions
-- python -m pytest -v
+### Backend
+
+Automated API tests are written using pytest.
+
+Run the backend tests:
+
+python -m pytest -v
+
+### Frontend
+
+Component tests are written using Vitest and React Testing Library.
+
+Run the frontend tests:
+
+cd frontend
+npm test
+
+## Future Development
+
+Planned improvements include:
+
+- Move from SQLite to PostgreSQL
+- Increase frontend test coverage
+- Deploy the application to a cloud platform
+- Improve accessibility and error handling
